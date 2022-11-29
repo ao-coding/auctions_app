@@ -3,5 +3,30 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-    TODO
+    <ul style="list-style-type:none;">
+        {% for listing in listings %} 
+            <div style="border: 1px solid lightgray; margin: 50px; padding: 20px; border-radius: 10px;">
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr>
+                            <td style="width:40px;">
+                                <img src="{{ listing.image_url }}" style="max-width:400px; max-height: 400px;"/>
+                            </td>
+                            <td style="width: 60%;"  valign="top">
+                                <h5><a href="{% url 'listing' listing.id %}" >{{ listing.title }}</a></h5>
+                                <div>{{ listing.description }}</div>
+                                <div>Bid: ${{ listing.price }}</div>
+                                <div>Listed by: {{ listing.user }}</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        {% empty %}
+            <li>No active listings</li>
+
+        {% endfor %}
+    </ul>
+
 {% endblock %}
