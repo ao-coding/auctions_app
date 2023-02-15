@@ -6,32 +6,57 @@
     {% if listing.sold %}
         {% if is_winner %}
         <h5>Congratulations, you are the winner!</h5>
+        {% elif is_owner %}
+        <h5>{{winner}} is the winner!</h5>
         {% else %}
         <h5>Bidding is closed</h5>
         {% endif %}
     {% endif %}
-
-<table style="width: 100%;">
-    <tbody>
-        <tr>
-            <td style="width:40px;">
-                <h5>{{ listing.title }}</h5>
-                <img src="{{ listing.image_url }}" style="max-width:500px; max-height: 500px;"/>
-            </td>
-            <td style="width: 60%;">
+{% endif %}
+<h4 style="text-align: center;">{{ listing.title }}</h4>
+<div class="container" style="background-color: rgba(138, 129, 133, 0.628); margin-top: 50px;margin-bottom: 50px; padding: 20px; border-radius: 10px;">
+    <div class="row">
+        <div class="col col-xs-6 .col-lg-5 pictures">
+                         
+                    <div class="image fade">
+                        <img alt="img" src="{{listing.image_url}}" style=" width: 100%; max-height: 60vh;"/>
+                    </div>
+                        {% if listing.image_url2 is not None %}
+                            <div class="image fade">
+                                <img alt="img" src="{{listing.image_url2}}" style=" width: 100%; max-height: 60vh;"/>
+                            </div>
+                            
+                            <i id="previ" onclick="showImage(-1)" class="fas fa-chevron-left"></i>
+                            <i id="nexti" onclick="showImage(1)" class="fas fa-chevron-right"></i>
+                        {% endif %}          
+        </div>
+        <div class="col col-xs-6 .col-lg-7" >
                 <div>{{ listing.description }}</div>
-
+                
+                {% if user.is_authenticated %}
                 <form action="{% url 'bidding' listing.id %}" method="post">
                     {% csrf_token %}
-                    <div>Bid: $ <input type="number" min="{{ listing.price }}" step="0.01" name="bid" placeholder="{{ listing.price }}">
+                    <div>Bid: $ <input type="number" min="{{ listing.price }}" step="1" name="bid" placeholder="{{ listing.price }}">
                     <input type="submit" class="btn btn-primary"> </div>
                 </form>
-
+                Bids submitted: {{bids_num}}
                 <br>
-
+                    {% if is_owner %}
+                        {% for bid in bids %}
+                            <ul style="list-style-type:none;">
+                                {{bid.user}} bidded {{bid.price}}. Email: {{bid.user.email}}
+                            </ul>
+                        {% endfor %}
+                    {% endif %}
+                {% else %}
+                <div>Bid: $ <input type="number" min="{{ listing.price }}" step="1" name="bid" placeholder="{{ listing.price }}">
+                    <input disabled type="submit" class="btn btn-primary"> </div>
+                {% endif %}
+        
                 <div>Category: {{ category }}</div>
                 <div>Listed by: {{ listing.user }}</div>
 
+                {% if user.is_authenticated %}
                 <div class="checkbox" >
                     {% if watching %}
                         <a href="{% url 'remove_watchlist' listing.id %}"> Remove from WatchList</a>
@@ -46,20 +71,24 @@
                     {% endif %}
                     
                 {% endif %}
-            </td>
-        </tr>
-    </tbody>
-</table>
+            
+        </div>
+    </div>
+</div>
 
 <hr>
-
+<div class="container">
 <form action="{% url 'listing' listing.id %}" method="post">
     {% csrf_token %}
     <h6>Add comment</h6>
     <textarea class="form-control" aria-label="With textarea" name="comment" style="width:40%; vertical-align: top;"></textarea>
     <input type="submit" class="btn btn-primary" style="display: inline-block; margin-top: 10px;">
 </form>
-
+                {% else %}
+                <h6>Add comment</h6>
+                <textarea class="form-control" aria-label="With textarea" name="comment" style="width:40%; vertical-align: top;"></textarea>
+                <input type="submit" disabled class="btn btn-primary" style="display: inline-block; margin-top: 10px;">
+                {% endif %}
 <br> 
 <h6>Comments</h6>
 <ul style="list-style-type: none;">
@@ -70,9 +99,27 @@
     </div>
     {% endfor %}
 </ul>
+</div>
+<script>
+    var index=0;
+showImage(index);
 
-{% else %}
-<h6>Please login or create an account</h6>
-{% endif %}
+function showImage(i){
+    index+=i;
 
+    var images = document.getElementsByClassName("image");
+
+    for(i=0; i<images.length; i++)
+    images[i].style.display="none";
+
+    if(index>images.length-1)
+    index=0;
+
+    if(index<0)
+    index=images.length-1;
+
+    images[index].style.display="block";
+
+}
+</script>
 {% endblock %}

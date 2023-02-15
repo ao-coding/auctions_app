@@ -1,6 +1,8 @@
 from django.urls import path
-
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path("", views.index, name="index"),
@@ -14,5 +16,13 @@ urlpatterns = [
     path("bidding/<str:listing_id>", views.bidding, name="bidding"),
     path("close_bidding/<str:listing_id>", views.close_bidding, name="close_bidding"),
     path("watch_list/<str:user_id>", views.watchlist, name="watchlist"),
-    path("categories", views.category, name="categories")
-]
+    path("categories", views.category, name="categories"),
+    path("myListings", views.myListings, name="myListings"),
+    path("myBids", views.myBids, name="myBids")
+    
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL,
+                              document_root=settings.MEDIA_ROOT)
+        

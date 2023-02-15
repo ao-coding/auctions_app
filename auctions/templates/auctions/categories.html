@@ -1,7 +1,7 @@
 {% extends "auctions/listing.html" %}
 
 {% block body %}
-<h2>Categories</h2>
+<h5>Categories</h5>
 
 <form action="{% url 'categories' %}" method="post">
     {% csrf_token %}
@@ -11,7 +11,7 @@
         {% endfor %}
     </select>
 
-    <input type="submit" class="btn btn-primary">
+    <input type="submit" value="Search" class="btn btn-primary">
 </form>
 
 <h6>{{ category }}</h6>

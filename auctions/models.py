@@ -18,7 +18,8 @@ class Listing(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="listing_category")
     categories = models.ManyToManyField(Category, blank=True, related_name="select_category") # all categories to select from
-    image_url = models.URLField(default='google.com')
+    image_url = models.ImageField(upload_to = "images/")
+    image_url2 = models.ImageField(upload_to = "images/", default=None)
     sold = models.BooleanField(default=False)
 
     def __str__(self):

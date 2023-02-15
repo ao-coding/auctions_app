@@ -1,3 +1,28 @@
 body {
     padding: 10px;
+ 
 }
+/* Pagination */
+  
+.pagination {
+    padding: 15px 15px 15px 0px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  #first,
+  #last,
+  #prev,
+  #next {
+    border: 1px solid black;
+    border-radius: 2.5px;
+    padding: 5px 10px 5px 10px;
+  }
+  
+  #first:hover,
+  #last:hover,
+  #prev:hover,
+  #next:hover {
+    text-decoration: none;
+    background-color: whitesmoke;
+  }

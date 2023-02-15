@@ -1,0 +1,33 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2>My Bids</h2>
+<ul style="list-style-type:none;">
+    {% for bid in bids %} 
+        
+        <div style="border: 1px solid lightgray; margin: 50px; padding: 20px; border-radius: 10px;">
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="width:40px;">
+                            <img src="{{ bid.listing.image_url }}" style="width:80%;"/>
+                        </td>
+                        <td style="width: 60%;"  valign="top">
+                            <h5><a href="{% url 'listing' bid.listing.id %}" >{{ bid.listing.title }}</a></h5>
+                            <div>{{ bid.listing.description }}</div>
+                            <div>Bid: ${{ bid.listing.price }}</div>
+                            <div>Listed by: {{ bid.listing.user }}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    
+    {% empty %}
+
+        <li>You have not made any bid yet</li>
+
+    {% endfor %}
+</ul>
+
+{% endblock %}
