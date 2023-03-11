@@ -57,13 +57,13 @@
                 <div>Listed by: {{ listing.user }}</div>
 
                 {% if user.is_authenticated %}
-                    <div class="checkbox" >
-                        {% if watching %}
-                            <a href="{% url 'remove_watchlist' listing.id %}"> Remove from WatchList</a>
-                        {% else %}
-                            <a href="{% url 'add_watchlist' listing.id %}"> Add to WatchList</a>
-                        {% endif %}
-                    </div>
+                <div class="checkbox" >
+                    {% if watching %}
+                        <a href="{% url 'remove_watchlist' listing.id %}"> Remove from WatchList</a>
+                    {% else %}
+                        <a href="{% url 'add_watchlist' listing.id %}"> Add to WatchList</a>
+                    {% endif %}
+                </div>
 
                     {% if is_owner %}
                         {% if not listing.sold %}
@@ -76,23 +76,28 @@
     </div>
 </div>
 
-                    <hr>
-                    <div class="container">
-                        <form action="{% url 'listing' listing.id %}" method="post">
-                            {% csrf_token %}
-                            <h6>Add comment</h6>
-                            <textarea class="form-control" aria-label="With textarea" name="comment" style="width:40%; vertical-align: top;"></textarea>
-                            <input type="submit" class="btn btn-primary" style="display: inline-block; margin-top: 10px;">
-                        </form>
+<hr>
+<div class="container">
+    <form action="{% url 'listing' listing.id %}" method="post">
+        {% csrf_token %}
+        <h6>Add comment</h6>
+        <textarea class="form-control" aria-label="With textarea" name="comment" style="width:40%; vertical-align: top;"></textarea>
+        <input type="submit" class="btn btn-primary" style="display: inline-block; margin-top: 10px;">
+    </form>
+</div>
                 {% else %}
+                    
+        </div>
+    </div>
+ </div>
                     <div class="container">
                         <h6>Add comment</h6>
                         <textarea class="form-control" aria-label="With textarea" name="comment" style="width:40%; vertical-align: top;"></textarea>
                         <input type="submit" disabled class="btn btn-primary" style="display: inline-block; margin-top: 10px;">
+                    </div>
                 {% endif %}
-                    
 <br> 
-
+<div class="container">
     <h6>Comments</h6>
     <ul style="list-style-type: none;">
         
@@ -102,8 +107,7 @@
         </div>
         {% endfor %}
     </ul>
-                    </div>
-
+</div>
 <script>
     var index=0;
 showImage(index);

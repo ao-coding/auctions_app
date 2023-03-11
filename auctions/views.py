@@ -147,10 +147,15 @@ def listing(request, listing_id):
 
         if request.method == "POST":
             comment = request.POST["comment"]
-            if comment != "":
+            if comments != "":
                 Comment.objects.create(user = user, listing = listing, comment = comment)
          
-            return HttpResponseRedirect(reverse('listing'))
+            return render(request, "auctions/listing.html", {
+            "listing": listing,
+            "category": category,
+            "comments": comments,
+            "bids_num":bids_num
+            })
 
         else:
             if (bids_num > 0):
@@ -176,6 +181,7 @@ def listing(request, listing_id):
             "comments": comments,
             "bids_num":bids_num
             })
+
 
 @login_required
 def remove_watchlist(request, listing_id):
